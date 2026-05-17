@@ -1,0 +1,18 @@
+# Model files
+model/*
+!model/.gitkeep
+
+# Datasets
+dataset/*
+dataset/*/*
+!dataset/.gitkeep
+
+landmarks-dataset/*
+!landmarks-dataset/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
