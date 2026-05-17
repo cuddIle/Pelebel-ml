@@ -1,9 +1,4 @@
-# Datasets (too large for git — kept locally only)
-dataset/*
-dataset/*/*
-!dataset/.gitkeep
-!dataset/*/.gitkeep
-
+# Landmarks are derived from the dataset — regenerate via extract_landmarks.py
 landmarks-dataset/*
 !landmarks-dataset/.gitkeep
 
