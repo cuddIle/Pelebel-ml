@@ -1,11 +1,8 @@
-# Model files
-model/*
-!model/.gitkeep
-
-# Datasets
+# Datasets (too large for git — kept locally only)
 dataset/*
 dataset/*/*
 !dataset/.gitkeep
+!dataset/*/.gitkeep
 
 landmarks-dataset/*
 !landmarks-dataset/.gitkeep

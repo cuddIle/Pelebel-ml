@@ -45,16 +45,80 @@ Images of poses  →  MediaPipe landmarks  →  Joint angles  →  Random Forest
 
 ## Setup
 
-**Requirements:** Python 3.12+, [uv](https://github.com/astral-sh/uv)
+**Requirements:** Python 3.12+, [uv](https://github.com/astral-sh/uv), [git-lfs](https://git-lfs.com)
+
+### 1. Install git-lfs
+
+The trained model files (`*.joblib`, `*.onnx`, `*.task`) are stored via Git LFS. Install it **before** cloning so the binaries are fetched correctly:
 
 ```bash
-# Install dependencies
-uv sync
+# macOS
+brew install git-lfs
 
-# Download the MediaPipe pose landmarker model
-mkdir -p model
+# Ubuntu / Debian
+sudo apt install git-lfs
+
+# Enable LFS for your user (one-time, machine-wide)
+git lfs install
+```
+
+### 2. Clone the repo
+
+```bash
+git clone https://github.com/<owner>/Pelebel-ml.git
+cd Pelebel-ml
+```
+
+If you already cloned without LFS installed, pull the binaries now:
+
+```bash
+git lfs pull
+```
+
+### 3. Install Python dependencies
+
+```bash
+uv sync
+```
+
+### 4. (Optional) Download the MediaPipe pose model
+
+`pose_landmarker.task` is already stored in `model/` via LFS, so step 1 handles it. If for any reason it's missing:
+
+```bash
 curl -L -o model/pose_landmarker.task \
   https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/latest/pose_landmarker_heavy.task
+```
+
+### Note on the dataset
+
+The raw image dataset (`dataset/`) and intermediate landmarks (`landmarks-dataset/`) are **not** stored in git — they're too large. Only the trained model artifacts are versioned. To re-train from scratch, you'll need to recreate the dataset locally (see "Training the Model" below).
+
+### Working with Git LFS
+
+After making changes to model files:
+
+```bash
+# Confirm the file is tracked by LFS (look for "filter=lfs")
+git check-attr -a model/rf_classifier.joblib
+
+# Stage, commit, and push as normal — LFS uploads happen automatically
+git add model/rf_classifier.joblib
+git commit -m "Update trained classifier"
+git push
+```
+
+To add new file types to LFS tracking:
+
+```bash
+git lfs track "*.h5"     # example
+git add .gitattributes   # commit the tracking rule
+```
+
+List everything LFS is tracking in this repo:
+
+```bash
+git lfs ls-files
 ```
 
 ---
